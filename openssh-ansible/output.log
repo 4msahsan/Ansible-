@@ -1,0 +1,37 @@
+mahsan@u22:~/Ansible/Ansible-/openssh-ansible$ docker images
+REPOSITORY   TAG       IMAGE ID       CREATED          SIZE
+centos-ssh   latest    ab0bac7dc086   38 minutes ago   982MB
+centos       7         eeb6ee3f44bd   11 months ago    204MB
+mahsan@u22:~/Ansible/Ansible-/openssh-ansible$ docker run -dit --name host1 centos-ssh
+ac5abf286f7a17cc9eea440b40233bd3df205d21940bdc6bd28e1e23537dd4c9
+mahsan@u22:~/Ansible/Ansible-/openssh-ansible$ docker ps -a
+CONTAINER ID   IMAGE        COMMAND               CREATED         STATUS         PORTS     NAMES
+ac5abf286f7a   centos-ssh   "/usr/sbin/sshd -D"   5 seconds ago   Up 3 seconds             host1
+mahsan@u22:~/Ansible/Ansible-/openssh-ansible$ docker run -dit --name host2 centos-ssh
+103a0312d7e18f8fc0a6506d9bd035693cccdc01972d14e5f512eb232706ff9f
+mahsan@u22:~/Ansible/Ansible-/openssh-ansible$ docker run -dit --name host3 centos-ssh
+5076ca8676dee3eb0de5298dcf8407763e71dca65c3ec87272abae68f0db19b3
+mahsan@u22:~/Ansible/Ansible-/openssh-ansible$ docker ps -a
+CONTAINER ID   IMAGE        COMMAND               CREATED          STATUS          PORTS     NAMES
+5076ca8676de   centos-ssh   "/usr/sbin/sshd -D"   3 seconds ago    Up 1 second               host3
+103a0312d7e1   centos-ssh   "/usr/sbin/sshd -D"   7 seconds ago    Up 6 seconds              host2
+ac5abf286f7a   centos-ssh   "/usr/sbin/sshd -D"   18 seconds ago   Up 16 seconds             host1
+mahsan@u22:~/Ansible/Ansible-/openssh-ansible$
+
+
+mahsan@u22:~/Ansible/Ansible-/openssh-ansible$ docker inspect 5076ca8676de | grep  IPAddress
+            "SecondaryIPAddresses": null,
+            "IPAddress": "172.17.0.4",
+                    "IPAddress": "172.17.0.4",
+mahsan@u22:~/Ansible/Ansible-/openssh-ansible$ docker inspect 103a0312d7e1 | grep  IPAddress
+            "SecondaryIPAddresses": null,
+            "IPAddress": "172.17.0.3",
+                    "IPAddress": "172.17.0.3",
+mahsan@u22:~/Ansible/Ansible-/openssh-ansible$ docker inspect ac5abf286f7a | grep  IPAddress
+            "SecondaryIPAddresses": null,
+            "IPAddress": "172.17.0.2",
+                    "IPAddress": "172.17.0.2",
+mahsan@u22:~/Ansible/Ansible-/openssh-ansible$
+
+
+
