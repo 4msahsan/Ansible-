@@ -1,0 +1,27 @@
+mahsan@centos7 playbook]$ ansible-playbook install-docker.yaml
+
+PLAY [all] ***************************************************************************************************
+
+TASK [Gathering Facts] ***************************************************************************************
+ok: [192.168.0.71]
+ok: [192.168.0.72]
+ok: [192.168.0.70]
+
+TASK [Install packages that allow apt to be used over HTTPS] *************************************************
+changed: [192.168.0.70]
+changed: [192.168.0.71]
+changed: [192.168.0.72]
+
+TASK [Add an apt signing key for Docker] *********************************************************************
+changed: [192.168.0.72]
+changed: [192.168.0.70]
+changed: [192.168.0.71]
+
+TASK [Add apt repository for stable version] *****************************************************************
+changed: [192.168.0.70]
+changed: [192.168.0.71]
+changed: [192.168.0.72]
+
+TASK [Install docker and its dependecies] ********************************************************************
+ERROR! The requested handler 'docker status' was not found in either the main handlers list nor in the listening handlers list
+[mahsan@centos7 playbook]$
