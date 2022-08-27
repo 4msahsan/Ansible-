@@ -1,0 +1,70 @@
+ahsan@Azure:~$ ansible-playbook main 
+[DEPRECATION WARNING]: Ansible will require Python 3.8 or newer on the controller starting with Ansible 2.12. Current version: 3.7.3 (default, Jan 22 2021, 20:04:44) [GCC 8.3.0]. This feature will be
+ removed from ansible-core in version 2.12. Deprecation warnings can be disabled by setting deprecation_warnings=False in ansible.cfg.
+[WARNING]: No inventory was parsed, only implicit localhost is available
+[WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
+
+PLAY [Create Azure VM] *********************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] *********************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [Create resource group] ***************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [Create virtual network] **************************************************************************************************************************************************************************
+changed: [localhost]
+
+TASK [Add subnet] **************************************************************************************************************************************************************************************
+changed: [localhost]
+
+TASK [Create public IP address] ************************************************************************************************************************************************************************
+changed: [localhost]
+
+TASK [Public IP of VM] *********************************************************************************************************************************************************************************
+ok: [localhost] => {
+    "msg": "The public IP is 20.118.131.68."
+}
+
+TASK [Create Network Security Group that allows SSH] ***************************************************************************************************************************************************
+changed: [localhost]
+
+TASK [Create virtual network interface card] ***********************************************************************************************************************************************************
+[DEPRECATION WARNING]: Setting ip_configuration flatten is deprecated and will be removed. Using ip_configurations list to define the ip configuration. This feature will be removed in version [2, 9].
+ Deprecation warnings can be disabled by setting deprecation_warnings=False in ansible.cfg.
+changed: [localhost]
+
+TASK [Create VM] ***************************************************************************************************************************************************************************************
+changed: [localhost]
+
+PLAY RECAP *********************************************************************************************************************************************************************************************
+localhost                  : ok=9    changed=6    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+ahsan@Azure:~$ 
+
+
+
+***
+Requesting a Cloud Shell.Succeeded. 
+Connecting terminal...
+
+ahsan@Azure:~$ az vm list -d -o table --query "[?name=='myVM']"
+Name    Location    ProvisioningState    VmId                                  TimeCreated                       PowerState    PublicIps      Fqdns    PrivateIps    MacAddresses       ResourceGroup
+------  ----------  -------------------  ------------------------------------  --------------------------------  ------------  -------------  -------  ------------  -----------------  ---------------
+myVM    westus3     Succeeded            2c977161-5390-45c2-874a-bf53681eb744  2022-08-08T18:51:59.288636+00:00  VM running    20.118.131.68           10.0.1.4      60-45-BD-AE-3D-C8  MYRESOURCEGROUP
+ahsan@Azure:~$ 
+
+***
+myVM    westus3     Succeeded            2c977161-5390-45c2-874a-bf53681eb744  2022-08-08T18:51:59.288636+00:00  VM running    20.118.131.68           10.0.1.4      60-45-BD-AE-3D-C8  MYRESOURCEGROUP
+ahsan@Azure:~$ id
+uid=9527(ahsan) gid=9527(ahsan) groups=9527(ahsan)
+ahsan@Azure:~$ ssh azureuser@20.118.131.68 -i  /home/azureuser/.ssh/authorized_keys/id_rsa
+Warning: Identity file /home/azureuser/.ssh/authorized_keys/id_rsa not accessible: No such file or directory.
+The authenticity of host '20.118.131.68 (20.118.131.68)' can't be established.
+ECDSA key fingerprint is SHA256:CZkJl92Vxft/AziMFghdVfwDPR6RfQgogKh3yhkpPVs.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added '20.118.131.68' (ECDSA) to the list of known hosts.
+[azureuser@myVM ~]$ hostname
+myVM
+[azureuser@myVM ~]$ 
+
