@@ -1,0 +1,46 @@
+*** Ansible Dynamic Invenotry ***
+ahsan@Azure:~$ az group create --resource-group ansible-inventory-test-rg --location westus3
+{
+  "id": "/subscriptions/2f1c5134-8ec1-4472-a3cc-8c30fc0372c8/resourceGroups/ansible-inventory-test-rg",
+  "location": "westus3",
+  "managedBy": null,
+  "name": "ansible-inventory-test-rg",
+  "properties": {
+    "provisioningState": "Succeeded"
+  },
+  "tags": null,
+  "type": "Microsoft.Resources/resourceGroups"
+}
+ahsan@Azure:~$ 
+
+*** Create Vm using bash ***
+az vm create \
+--resource-group ansible-inventory-test-rg \
+--name win-vm \
+--image MicrosoftWindowsServer:WindowsServer:2019-Datacenter:latest \
+--admin-username mahsan \
+--admin-password "##redhad12345##"
+
+az vm create \
+--resource-group ansible-inventory-test-rg  \
+--name linux-vm \
+--image OpenLogic:CentOS:7.7:latest \
+--admin-username mahsan \
+--admin-password "##redhad12345##"
+
+*** Add application role tags
+
+ahsan@Azure:~$ cat add-vm-tag.yaml 
+az vm update \
+--resource-group ansible-inventory-test-rg \
+--name linux-vm \
+--set tags.applicationRole='message-broker' 
+
+az vm update \
+--resource-group ansible-inventory-test-rg \
+--name win-vm \
+--set tags.applicationRole='web-server'
+ahsan@Azure:~$ 
+
+
+
