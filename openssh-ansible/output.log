@@ -1,37 +1,43 @@
-mahsan@u22:~/Ansible/Ansible-/openssh-ansible$ docker images
-REPOSITORY   TAG       IMAGE ID       CREATED          SIZE
-centos-ssh   latest    ab0bac7dc086   38 minutes ago   982MB
-centos       7         eeb6ee3f44bd   11 months ago    204MB
-mahsan@u22:~/Ansible/Ansible-/openssh-ansible$ docker run -dit --name host1 centos-ssh
-ac5abf286f7a17cc9eea440b40233bd3df205d21940bdc6bd28e1e23537dd4c9
-mahsan@u22:~/Ansible/Ansible-/openssh-ansible$ docker ps -a
+ [mahsan@centos7 openssh-ansible]$  docker rm -f $(docker ps -a -q)
+[mahsan@centos7 openssh-ansible]$ docker run -d --name host01 centos-ssh
+b6512d284f3b34f6897318a129be60c7214abd224211804f2df0158eda29bed3
+[mahsan@centos7 openssh-ansible]$ docker ps -a
 CONTAINER ID   IMAGE        COMMAND               CREATED         STATUS         PORTS     NAMES
-ac5abf286f7a   centos-ssh   "/usr/sbin/sshd -D"   5 seconds ago   Up 3 seconds             host1
-mahsan@u22:~/Ansible/Ansible-/openssh-ansible$ docker run -dit --name host2 centos-ssh
-103a0312d7e18f8fc0a6506d9bd035693cccdc01972d14e5f512eb232706ff9f
-mahsan@u22:~/Ansible/Ansible-/openssh-ansible$ docker run -dit --name host3 centos-ssh
-5076ca8676dee3eb0de5298dcf8407763e71dca65c3ec87272abae68f0db19b3
-mahsan@u22:~/Ansible/Ansible-/openssh-ansible$ docker ps -a
+b6512d284f3b   centos-ssh   "/usr/sbin/sshd -D"   3 seconds ago   Up 3 seconds             host01
+[mahsan@centos7 openssh-ansible]$ docker run -d --name host02 centos-ssh
+a0385e54c81e6f22fe2bda45ed0435d5a9f87da2da5e66e0a262acbf5c54b5d1
+[mahsan@centos7 openssh-ansible]$ docker run -d --name host03 centos-ssh
+bc0273f25bd5984be8fd8a8c80c040dc8100e0dc8c447ce182244cb42dc05115
+[mahsan@centos7 openssh-ansible]$ docker p s-a
+docker: 'p' is not a docker command.
+See 'docker --help'
+[mahsan@centos7 openssh-ansible]$ docker ps -a
 CONTAINER ID   IMAGE        COMMAND               CREATED          STATUS          PORTS     NAMES
-5076ca8676de   centos-ssh   "/usr/sbin/sshd -D"   3 seconds ago    Up 1 second               host3
-103a0312d7e1   centos-ssh   "/usr/sbin/sshd -D"   7 seconds ago    Up 6 seconds              host2
-ac5abf286f7a   centos-ssh   "/usr/sbin/sshd -D"   18 seconds ago   Up 16 seconds             host1
-mahsan@u22:~/Ansible/Ansible-/openssh-ansible$
-
-
-mahsan@u22:~/Ansible/Ansible-/openssh-ansible$ docker inspect 5076ca8676de | grep  IPAddress
+bc0273f25bd5   centos-ssh   "/usr/sbin/sshd -D"   11 seconds ago   Up 9 seconds              host03
+a0385e54c81e   centos-ssh   "/usr/sbin/sshd -D"   17 seconds ago   Up 16 seconds             host02
+b6512d284f3b   centos-ssh   "/usr/sbin/sshd -D"   28 seconds ago   Up 27 seconds             host01
+[mahsan@centos7 openssh-ansible]$ docker inspect bc0273f25bd5 | grep IPAddress
             "SecondaryIPAddresses": null,
             "IPAddress": "172.17.0.4",
                     "IPAddress": "172.17.0.4",
-mahsan@u22:~/Ansible/Ansible-/openssh-ansible$ docker inspect 103a0312d7e1 | grep  IPAddress
+[mahsan@centos7 openssh-ansible]$ docker inspect a0385e54c81e | grep IPAddress
             "SecondaryIPAddresses": null,
             "IPAddress": "172.17.0.3",
                     "IPAddress": "172.17.0.3",
-mahsan@u22:~/Ansible/Ansible-/openssh-ansible$ docker inspect ac5abf286f7a | grep  IPAddress
+[mahsan@centos7 openssh-ansible]$ docker inspect b6512d284f3b | grep IPAddress
             "SecondaryIPAddresses": null,
             "IPAddress": "172.17.0.2",
                     "IPAddress": "172.17.0.2",
-mahsan@u22:~/Ansible/Ansible-/openssh-ansible$
+[mahsan@centos7 openssh-ansible]$
 
+[mahsan@centos7 openssh-ansible]$ docker ps -a
+CONTAINER ID   IMAGE        COMMAND               CREATED         STATUS         PORTS     NAMES
+bc0273f25bd5   centos-ssh   "/usr/sbin/sshd -D"   3 minutes ago   Up 3 minutes             host03
+a0385e54c81e   centos-ssh   "/usr/sbin/sshd -D"   4 minutes ago   Up 4 minutes             host02
+b6512d284f3b   centos-ssh   "/usr/sbin/sshd -D"   4 minutes ago   Up 4 minutes             host01
+[mahsan@centos7 openssh-ansible]$ docker images
+REPOSITORY   TAG       IMAGE ID       CREATED          SIZE
+centos-ssh   latest    40f8399a6108   13 minutes ago   982MB
+centos       7         eeb6ee3f44bd   11 months ago    204MB
+[mahsan@centos7 openssh-ansible]$
 
-###
